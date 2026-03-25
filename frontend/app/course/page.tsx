@@ -1,9 +1,8 @@
 "use client";
 
-import React from "react";
 import { Search, ChevronDown, Info } from "lucide-react";
+import Image from "next/image";
 
-// 模擬數據結構
 const COURSE_GROUPS = [
   {
     semester: "114 - 2",
@@ -65,10 +64,9 @@ const COURSE_GROUPS = [
 
 export default function CoursePage() {
   return (
-    <div className="p-8 flex flex-col gap-8">
-      {/* 頂部標題與搜尋列 */}
+    <div className="p-8 flex flex-col gap-8 bg-[#F2F2F2]">
       <header className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-slate-800">我的課程</h1>
+        <h1 className="title-1 text-gray-90">我的課程</h1>
         <div className="relative w-72">
           <input
             type="text"
@@ -81,34 +79,32 @@ export default function CoursePage() {
         </div>
       </header>
 
-      {/* 統計卡片區 */}
       <section className="flex gap-4">
-        <StatCard icon="⌛" label="正在分析中" value={2} hasInfo />
         <StatCard
-          icon="📊"
-          label="已分析完成"
-          value={23}
-          iconBg="bg-blue-50"
-          iconColor="text-blue-500"
+          icon="/icon/function/icon_in-progress-blue.svg"
+          label="正在分析中"
+          value={2}
+          hasInfo
         />
         <StatCard
-          icon="📚"
+          icon="/icon/function/icon_analysis-blue.svg"
+          label="已分析完成"
+          value={23}
+        />
+        <StatCard
+          icon="/icon/function/icon_books-blue.svg"
           label="當前課程數量"
           value={46}
-          iconBg="bg-cyan-50"
-          iconColor="text-cyan-500"
         />
       </section>
 
-      {/* 篩選與列表 */}
       <section className="flex flex-col gap-4">
         <div className="flex justify-end">
-          <button className="flex items-center gap-2 px-4 py-2 bg-white rounded-2xl shadow-sm text-sm font-medium hover:bg-gray-50 transition-colors">
-            所有學期 <ChevronDown size={16} />
+          <button className="flex items-center gap-2 px-4 py-2 bg-white rounded-2xl text-sm font-medium">
+            所有學年期 <ChevronDown size={16} />
           </button>
         </div>
 
-        {/* 課程列表 */}
         <div className="space-y-10">
           {COURSE_GROUPS.map((group) => (
             <div key={group.semester} className="space-y-4">
@@ -128,26 +124,33 @@ export default function CoursePage() {
   );
 }
 
-// --- 子組件：統計卡片 ---
-function StatCard({
-  icon,
-  label,
-  value,
-  hasInfo = false,
-  iconBg = "bg-orange-50",
-  iconColor = "text-orange-500",
-}: any) {
+function StatCard({ icon, label, value, hasInfo = false }: any) {
   return (
-    <div className="flex-1 bg-white p-6 rounded-[24px] shadow-sm flex items-center justify-between transition-transform hover:scale-[1.02]">
+    <div className="flex-1 bg-white p-6 rounded-[24px] flex items-center justify-between transition-transform">
       <div className="flex items-center gap-4">
         <div
-          className={`w-12 h-12 ${iconBg} ${iconColor} rounded-xl flex items-center justify-center text-xl`}
+          className={`w-[36px] h-[36px] bg-[rgba(1,174,217,0.1)] rounded-full flex items-center justify-center text-xl`}
         >
-          {icon}
+          <Image
+            src={icon}
+            alt="Info"
+            width={24}
+            height={24}
+            className="text-blue-50"
+          />
         </div>
-        <div className="flex items-center gap-1 text-slate-500 font-medium">
+        <div className="flex items-center gap-2 title-3">
           {label}
-          {hasInfo && <Info size={14} className="text-slate-300" />}
+          {hasInfo && (
+            <div className="w-4 h-4 rounded-full flex items-center justify-center">
+              <Image
+                src="/icon/function/icon_circle-help.svg"
+                alt="Info"
+                width={18}
+                height={18}
+              />
+            </div>
+          )}
         </div>
       </div>
       <div className="text-4xl font-bold text-slate-800">{value}</div>
@@ -155,7 +158,6 @@ function StatCard({
   );
 }
 
-// --- 子組件：課程項目 ---
 function CourseItem({
   name,
   code,
@@ -166,10 +168,10 @@ function CourseItem({
   hasUpdate,
 }: any) {
   return (
-    <div className="bg-white p-5 rounded-2xl shadow-sm flex items-center justify-between hover:shadow-md transition-shadow group">
+    <div className="bg-white p-5 rounded-2xl flex items-center justify-between">
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
-          <span className="font-bold text-slate-800">{name}</span>
+          <span className="body-1-reg text-gray-90">{name}</span>
           {hasUpdate && <div className="w-2 h-2 bg-red-500 rounded-full" />}
         </div>
         <div className="flex gap-2">
@@ -193,7 +195,7 @@ function CourseItem({
 
 function Tag({ text }: { text: string }) {
   return (
-    <span className="px-3 py-1 bg-gray-100 text-slate-500 text-xs rounded-lg font-medium">
+    <span className="px-3 py-1 bg-[#F2F2F2] text-slate-500 text-xs rounded-lg font-medium">
       {text}
     </span>
   );
